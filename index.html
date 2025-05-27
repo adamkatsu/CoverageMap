@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/style.css">
+    <link 
+      rel="stylesheet" 
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script 
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin="">
+    </script>
+    <title>New Map</title>
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <div id="map"></div>
+      </div>
+      <div class="filters">
+        <div class="filters-head">
+          <span style="font-weight: 500; font-size: 16px">Filters</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m18 15l-6-6l-6 6"/>
+          </svg>
+        </div>
+        <div class="filters-main">
+          <div class="filters-details">
+            <span class="item-count"></span>
+            <button id="data-clear">Clear</button>
+          </div>
+          <!-- <button id="data-all">Select All</button> -->
+          <div class="filters-options">
+            <label>
+              <div class="checkmark"></div> 
+              <input type="checkbox" id="filter-2g" value="2g" />
+              2G
+            </label>
+            <label>
+              <input type="checkbox" id="filter-3g" value="3g" /> 
+              <div class="checkmark"></div> 
+              3G
+            </label>
+            <label>
+              <div class="checkmark"></div> 
+              <input type="checkbox" id="filter-5g" value="5g" /> 
+              5G
+            </label>
+            <label>
+              <div class="checkmark"></div> 
+              <input type="checkbox" id="filter-lte" value="lte" /> 
+              LTE
+            </label>
+            <label>
+              <div class="checkmark"></div> 
+              <input type="checkbox" id="filter-lte-m" value="lte_m" />
+              LTE-M
+            </label>
+            <label>
+              <div class="checkmark"></div> 
+              <input type="checkbox" id="filter-nb-iot" value="nb_iot" />
+              NB-IOT
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="countries-table">
+        <div class="countries-head">
+          <div class="countries-item">
+            <div class="countries-num">
+              <span>#</span>
+            </div>
+            <div class="countries-region">
+              <span>Region</span>
+            </div>
+            <div class="countries-name">
+              <span>Country</span>
+            </div>
+            <div class="countries-iso">
+              <span>ISO</span>
+            </div>
+            <div class="countries-count">
+              <span>Network Count</span>
+            </div>
+            <div class="countries-2g">
+              <span>2G</span>
+            </div>
+            <div class="countries-3g">
+              <span>3G</span>
+            </div>
+            <div class="countries-5g">
+              <span>5G</span>
+            </div>
+            <div class="countries-lte">
+              <span>LTE</span>
+            </div>
+            <div class="countries-lte_m">
+              <span>LTE-M</span>
+            </div>
+            <div class="countries-nb_iot">
+              <span>NB-IOT</span>
+            </div>
+          </div>
+        </div>
+        <ul class="countries-list">
+        </ul>
+      </div>
+    </section>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

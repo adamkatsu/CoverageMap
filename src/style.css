@@ -1,0 +1,216 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+section {
+  padding: 72px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+}
+.container {
+  max-width: 920px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  /* background-color: white; */
+}
+.filters {
+  position: relative;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9999;
+  background-color: rgba(255,255,255,0.8);
+  backdrop-filter: blur(2px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  border-radius: 8px;
+  /* max-width: 360px; */
+  transition: all .3s ease;
+}
+.filters-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  border-top: 0px solid #e3e3e3;
+  transition: all .2s ease;
+  gap: 32px;
+  height: auto;
+  padding: 0px 16px;
+  overflow: hidden;
+}
+.filters-active {
+  height: auto;
+  padding: 24px 16px;
+  border-top: 1px solid #e3e3e3;
+  transition: all .2s ease;
+}
+.filters:has(.filters-active) .filters-head svg {
+  transform: rotate(180deg);
+  transition: all .2s ease;
+}
+.filters-head svg {
+  transition: all .2s ease;
+}
+.filters-details,
+.filters-head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  display: none;
+}
+.filters-head {
+  padding: 20px 16px;
+}
+.filters-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.filters-options label {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;  
+}
+.filters-options input {
+  opacity: 0;
+  position: absolute;
+}
+.checkmark {
+  height: 20px;
+  width: 20px;
+  border: 2px solid rgb(77, 77, 79, 0.1);
+  border-radius: 4px;
+}
+.filters-options label:has(input[type='checkbox']:checked) .checkmark{
+  background-color: orange;
+  color: white;
+  border: 1px solid orange;
+}
+#data-clear {
+  border: none;
+  background-color: transparent;
+  padding: 0px 2px;
+  border-bottom: 1px solid transparent;
+  color: black;
+  cursor: pointer;
+}
+#data-clear:hover {
+  border-bottom: 1px solid black;
+}
+#map { 
+  height: 600px; 
+  width: 920px;
+}
+.leaflet-popup {
+  pointer-events: none;
+}
+.countries-table {
+  width: fit-content;
+  overflow: hidden;
+}
+.countries-head {
+  padding: 8px;
+  padding-bottom: 0px;
+}
+.countries-head .countries-item {
+  border: none;
+}
+
+.countries-list {
+  max-height: 464px;
+  overflow: scroll;
+  border: 1px solid #DEDEDE;
+  border-radius: 12px;
+  padding: 8px;
+}
+.countries-list .countries-item {
+  background-color: #F6F6F6;
+  border-radius: 4px
+}
+.countries-list .countries-item:nth-child(2n) {
+  background-color: #ffffff;
+}
+.countries-item {
+  display: flex;
+  flex-direction: row;
+}
+.countries-item div {
+  padding: 8px 8px;
+  height: 64px;
+}
+.countries-item div:last-child {
+  border-right: none;
+}
+.countries-name,
+.countries-region {
+  width: 160px;
+}
+.countries-num {
+  width: 36px;
+}
+.countries-iso,
+.countries-2g,
+.countries-count,
+.countries-3g,
+.countries-5g,
+.countries-lte,
+.countries-lte_m,
+.countries-nb_iot {
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.countries-num,
+.countries-region,
+.countries-name {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.countries-count {
+  width: 200px;
+}
+.main-content {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+}
+
+.popup-inner {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+}
+.popup-title {
+  font-weight: 600;
+  font-size: 14px;
+  max-width: 100px;
+}
+.popup-list {
+  font-size: 12px;
+  font-weight: 500;
+}
+.leaflet-popup {
+  transition: none !important;
+}
