@@ -14,6 +14,7 @@ section {
   gap: 48px;
 }
 .container {
+  width: 100%;
   max-width: 920px;
   position: relative;
   border-radius: 12px;
@@ -116,7 +117,8 @@ section {
 }
 #map { 
   height: 600px; 
-  width: 920px;
+  width: 100%;
+  max-width: 920px;
 }
 .leaflet-popup {
   pointer-events: none;
