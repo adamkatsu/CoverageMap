@@ -202,17 +202,59 @@ section {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 8px;
 }
 .popup-title {
   font-weight: 600;
-  font-size: 14px;
-  max-width: 100px;
+  font-size: 20px;
+  line-height: 140%;
 }
 .popup-list {
   font-size: 12px;
   font-weight: 500;
+  padding: 16px 0;
+  border-bottom: 1px solid #e3e3e3
+}
+.popup-network {
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+}
+.popup-network-title {
+  font-weight: 600;
+  font-size: 16px;
 }
 .leaflet-popup {
   transition: none !important;
+}
+.popup-tag {
+  padding: 4px 8px;
+  border-radius: 1000px;
+  background-color: #e3e3e3;
+  display: block;
+  width: fit-content;
+  color: black;
+}
+.popup-tag.active {
+  background-color: orange;
+  color: white;
+} 
+.popup-data {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.popup-region {
+  font-size: 12px;
+  font-weight: 600;
+}
+.popup-networks {
+  font-size: 12px;
+  color: #333;
+}
+.popup-networks li {
+  list-style: none;
 }

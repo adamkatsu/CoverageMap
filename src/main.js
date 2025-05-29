@@ -1,13 +1,13 @@
 // var map = L.map('map').setView([40, 0], 1);
 var map = L.map('map', {
   center: [40, 0], // Center the map
-  zoom: 2,         // Initial zoom level
+  zoom: 0,         // Initial zoom level
   attributionControl: false,
   maxBounds: [
     [-85, -180], // Southwest corner of the bounding box
     [85, 180]    // Northeast corner of the bounding box
   ],
-  maxBoundsViscosity: 1.0, // Smooth panning at bounds edge
+  maxBoundsViscosity: 0, // Smooth panning at bounds edge
 });
 
 L.tileLayer('', {
@@ -42,7 +42,8 @@ fetch(countriesGeoJSON)
     for (const item of data.features) {
       // Aggregate technology support across all networks
       const networkList = item.properties.network_list || {};
-      const techs = { '2g': false, '3g': false, '5g': false, 'lte': false, 'lte_m': false, 'nb_iot': false };
+      const techs = { '2g': false, '3g': false, '5g': false, 'lte': false, 'lte_m': false, 'nb_iot': false};
+
       Object.values(networkList).forEach((net) => {
         if (net['2g'] === 't') techs['2g'] = true;
         if (net['3g'] === 't') techs['3g'] = true;
@@ -62,6 +63,7 @@ fetch(countriesGeoJSON)
         'lte': techs['lte'],
         'lte_m': techs['lte_m'],
         'nb_iot': techs['nb_iot'],
+        'plmn': techs['plmn'],
         network_list: networkList,
       });
     }
@@ -98,6 +100,7 @@ function convertToGeoJSON(array, originalData) {
           'lte': item['lte'],
           'lte_m': item['lte_m'],
           'nb_iot': item['nb_iot'],
+          network_list: item.network_list || {}, // ✅ ADD THIS 
         },
         geometry: originalFeature.geometry, // Retain original geometry
       };
@@ -117,18 +120,32 @@ function updateMap() {
     style: featureStyle,
     onEachFeature: (feature, layer) => {
       const countryName = feature.properties.name;
+      const countryRegion = feature.properties.region;
       const countryAmount = feature.properties.count;
-
+      
       // Hover and Popup
       layer.on('mouseover', () => {
         // console.log(feature)
+        // const countryData = `
+        //   ${feature.properties['2g'] ? '<div class="popup-tag active">2G</div>' : '<div class="popup-tag">2G</div>'}
+        //   ${feature.properties['3g'] ? '<div class="popup-tag active">3G</div>' : '<div class="popup-tag">3G</div>'}
+        //   ${feature.properties['5g'] ? '<div class="popup-tag active">5G</div>' : '<div class="popup-tag">5G</div>'}
+        //   ${feature.properties['lte'] ? '<div class="popup-tag active">LTE</div>' : '<div class="popup-tag">LTE</div>'}
+        //   ${feature.properties['lte_m'] ? '<div class="popup-tag active">LTE-M</div>' : '<div class="popup-tag">LTE-M</div>'}
+        //   ${feature.properties['nb_iot'] ? '<div class="popup-tag active">NB-IOT</div>' : '<div class="popup-tag">NB-IOT</div>'}
+        // `;
+        const networkList = feature.properties.network_list || {};
+        const networkNames = Object.keys(networkList)
+          .map((netName) => `${netName}`)
+          .join(', ');
+
         const countryData = `
-          ${feature.properties['2g'] ? '2G,' : ''}
-          ${feature.properties['3g'] ? '3G,' : ''}
-          ${feature.properties['5g'] ? '5G,' : ''}
-          ${feature.properties['lte'] ? 'LTE,' : ''}
-          ${feature.properties['lte_m'] ? 'LTE-M,' : ''}
-          ${feature.properties['nb_iot'] ? 'NB-IOT,' : ''}
+          ${feature.properties['2g'] ? '<div class="popup-tag active">2G</div>' : '<div class="popup-tag">2G</div>'}
+          ${feature.properties['3g'] ? '<div class="popup-tag active">3G</div>' : '<div class="popup-tag">3G</div>'}
+          ${feature.properties['5g'] ? '<div class="popup-tag active">5G</div>' : '<div class="popup-tag">5G</div>'}
+          ${feature.properties['lte'] ? '<div class="popup-tag active">LTE</div>' : '<div class="popup-tag">LTE</div>'}
+          ${feature.properties['lte_m'] ? '<div class="popup-tag active">LTE-M</div>' : '<div class="popup-tag">LTE-M</div>'}
+          ${feature.properties['nb_iot'] ? '<div class="popup-tag active">NB-IOT</div>' : '<div class="popup-tag">NB-IOT</div>'}
         `;
 
         const popup = L.popup({
@@ -140,18 +157,19 @@ function updateMap() {
       
         // Add mousemove event to make the popup follow the cursor
         layer.on('mousemove', (event) => {
+          
           popup
             .setLatLng(event.latlng)
             .setContent(`
               <div class="popup-inner">
                 <span class="popup-title">${countryName}</span>
+                <span class="popup-region">${countryRegion}</span>
                 <span class="popup-list">
-                  <strong>Available Technologies:</strong><br>
-                  ${countryData}
+                  <div class="popup-data">${countryData}</div>
                 </span>
-                <span class="popup-list">
-                  <strong># of Networks:</strong><br>
-                  ${countryAmount}
+                <span class="popup-network">
+                  <span class="popup-network-title">${countryAmount} Networks:</span>
+                  <span class="popup-networks">${networkNames}</span>
                 </span>
               </div>
             `)
@@ -180,8 +198,6 @@ function updateMap() {
 function toggleCountry(feature) {
   const countryName = feature.properties.name;
   const exists = tempArray.find((c) => c.name === countryName);
-  // console.log(countryName)
-  // console.log(tempArray)
 
   if (exists) {
     // Remove if already in tempArray
@@ -218,7 +234,6 @@ function applyFilters() {
   tempArray = mainArray.filter((country) =>
     selectedFilters.every((filter) => country[filter] === true)
   );
-  console.log(tempArray)
 
   updateMap();
   showList(tempArray);
@@ -246,41 +261,44 @@ function showList(arr) {
     const networkList = item.network_list || {};
     Object.entries(networkList).forEach(([networkName, net]) => {
       html += `
-      <div class="countries-item">
-        <div class="countries-num">
-          <span>${rowIndex++}</span>
-        </div>
-        <div class="countries-region">
-          <span>${item.region}</span>
-        </div>
-        <div class="countries-name">
-          <span>${item.name}</span>
-        </div>
-        <div class="countries-iso">
-          <span>${item.iso}</span>
-        </div>
-        <div class="countries-count">
-          <span>${item.count}</span>
-        </div>
-        <div class="countries-2g">
-          <span>${net['2g'] === 't' ? svgCheck : svgCross}</span>
-        </div>
-        <div class="countries-3g">
-          <span>${net['3g'] === 't' ? svgCheck : svgCross}</span>
-        </div>
-        <div class="countries-5g">
-          <span>${net['5g'] === 't' ? svgCheck : svgCross}</span>
-        </div>
-        <div class="countries-lte">
-          <span>${net['lte'] === 't' ? svgCheck : svgCross}</span>
-        </div>
-        <div class="countries-lte_m">
-          <span>${net['lte_m'] === 't' ? svgCheck : svgCross}</span>
-        </div>
-        <div class="countries-nb_iot">
-          <span>${net['nb_iot'] === 't' ? svgCheck : svgCross}</span>
-        </div>
-      </div>`;
+        <div class="countries-item">
+          <div class="countries-num">
+            <span>${rowIndex++}</span>
+          </div>
+          <div class="countries-region">
+            <span>${item.region}</span>
+          </div>
+          <div class="countries-name">
+            <span>${item.name}</span>
+          </div>
+          <div class="countries-iso">
+            <span>${networkName}</span>
+          </div>
+          <div class="countries-count">
+            <span>${item.count}</span>
+          </div>
+          <div class="countries-iso">
+            <span>${net.plmn || 'N/A'}</span>
+          </div>
+          <div class="countries-2g">
+            <span>${net['2g'] === 't' ? svgCheck : svgCross}</span>
+          </div>
+          <div class="countries-3g">
+            <span>${net['3g'] === 't' ? svgCheck : svgCross}</span>
+          </div>
+          <div class="countries-5g">
+            <span>${net['5g'] === 't' ? svgCheck : svgCross}</span>
+          </div>
+          <div class="countries-lte">
+            <span>${net['lte'] === 't' ? svgCheck : svgCross}</span>
+          </div>
+          <div class="countries-lte_m">
+            <span>${net['lte_m'] === 't' ? svgCheck : svgCross}</span>
+          </div>
+          <div class="countries-nb_iot">
+            <span>${net['nb_iot'] === 't' ? svgCheck : svgCross}</span>
+          </div>
+        </div>`;
     });
   });
 
@@ -288,18 +306,6 @@ function showList(arr) {
   document.querySelector('.item-count').innerHTML = `${rowIndex - 1} items found`;
 }
 
-// Select All
-// document.getElementById('data-all').addEventListener('click', () => {
-//   // Check all checkboxes
-//   document.querySelectorAll('.filter-options input[type="checkbox"]').forEach((checkbox) => {
-//     checkbox.checked = true;
-//   });
-
-//   // Copy all countries to tempArray
-//   tempArray = [...mainArray];
-//   updateMap();
-//   showList(tempArray);
-// });
 
 // Clear Data
 document.getElementById('data-clear').addEventListener('click', () => {
@@ -325,3 +331,4 @@ document.querySelectorAll('.filters-options input[type="checkbox"]').forEach((ch
 document.querySelector('.filters-head').addEventListener('click', () => {
   document.querySelector('.filters-main').classList.toggle('filters-active');
 })
+
