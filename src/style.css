@@ -258,3 +258,7 @@ section {
 .popup-networks li {
   list-style: none;
 }
+.leaflet-popup-tip,
+.floating-popup .leaflet-popup-tip {
+  display: none !important;
+}

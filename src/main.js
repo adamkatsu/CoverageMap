@@ -1,13 +1,14 @@
 // var map = L.map('map').setView([40, 0], 1);
 var map = L.map('map', {
-  center: [40, 0], // Center the map
-  zoom: 0,         // Initial zoom level
+  center: [0, 0], // Center the map
+  zoom: 2,         // Initial zoom level
   attributionControl: false,
   maxBounds: [
-    [-85, -180], // Southwest corner of the bounding box
+    [-60, -180], // Southwest corner of the bounding box
     [85, 180]    // Northeast corner of the bounding box
   ],
   maxBoundsViscosity: 0, // Smooth panning at bounds edge
+  minZoom: 1
 });
 
 L.tileLayer('', {
@@ -125,15 +126,6 @@ function updateMap() {
       
       // Hover and Popup
       layer.on('mouseover', () => {
-        // console.log(feature)
-        // const countryData = `
-        //   ${feature.properties['2g'] ? '<div class="popup-tag active">2G</div>' : '<div class="popup-tag">2G</div>'}
-        //   ${feature.properties['3g'] ? '<div class="popup-tag active">3G</div>' : '<div class="popup-tag">3G</div>'}
-        //   ${feature.properties['5g'] ? '<div class="popup-tag active">5G</div>' : '<div class="popup-tag">5G</div>'}
-        //   ${feature.properties['lte'] ? '<div class="popup-tag active">LTE</div>' : '<div class="popup-tag">LTE</div>'}
-        //   ${feature.properties['lte_m'] ? '<div class="popup-tag active">LTE-M</div>' : '<div class="popup-tag">LTE-M</div>'}
-        //   ${feature.properties['nb_iot'] ? '<div class="popup-tag active">NB-IOT</div>' : '<div class="popup-tag">NB-IOT</div>'}
-        // `;
         const networkList = feature.properties.network_list || {};
         const networkNames = Object.keys(networkList)
           .map((netName) => `${netName}`)
@@ -153,7 +145,10 @@ function updateMap() {
           className: 'floating-popup',
           autoClose: false,
           closeOnClick: false,
+          autoPan: false, // Prevent panning the map on popup open
+          offset: L.point(10, 10), // Offset from cursor (you can tweak this)
         });
+        
       
         // Add mousemove event to make the popup follow the cursor
         layer.on('mousemove', (event) => {
