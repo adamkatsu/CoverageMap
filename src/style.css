@@ -40,7 +40,7 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: stretch;
+  align-items: center;
   border-top: 0px solid #e3e3e3;
   transition: all .2s ease;
   gap: 32px;
@@ -274,8 +274,13 @@ section {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   overflow: visible;
+  gap: 20px;
+}
+#search-filter {
+  padding: 8px;
+  width: 200px;
 }
 .filter-dropdown {
   position: relative;
@@ -284,7 +289,13 @@ section {
 }
 .filter-toggle {
   width: 100%;
+  padding: 8px;
+  border-radius: 8px;
   border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 #location-filters {
   width: 280px;
@@ -292,7 +303,7 @@ section {
   /* border: 1px solid black; */
   background-color: white;
   position: absolute;
-  top: 32px;
+  top: 48px;
   left: 0;
   z-index: 999;
   overflow: scroll;
@@ -311,6 +322,6 @@ section {
   align-items: flex-start;
   gap: 12px;
 }
-.region-group label {
+.region-group label span {
   line-height: 160%;
 }

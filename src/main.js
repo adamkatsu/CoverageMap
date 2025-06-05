@@ -236,11 +236,6 @@ function applyFilters() {
 
 // Show list in table
 function showList(arr) {
-  if (tempArray.length == 0) {
-    document.getElementById('data-clear').style.display = 'none';
-  } else {
-    document.getElementById('data-clear').style.display = 'block';
-  }
 
   const listContainer = document.querySelector('.countries-list');
   let html = '';
@@ -298,22 +293,8 @@ function showList(arr) {
   });
 
   listContainer.innerHTML = html;
-  document.querySelector('.item-count').innerHTML = `${rowIndex - 1} items found`;
 }
 
-
-// Clear Data
-document.getElementById('data-clear').addEventListener('click', () => {
-  // Uncheck all checkboxes
-  document.querySelectorAll('.filters-options input[type="checkbox"]').forEach((checkbox) => {
-    checkbox.checked = false;
-  });
-
-  // Empty the tempArray
-  tempArray = [];
-  updateMap();
-  showList(tempArray);
-});
 
 
 // Add event listeners for filters
@@ -327,29 +308,6 @@ document.querySelectorAll('.filters-options input[type="checkbox"]').forEach((ch
 document.querySelector('.filters-head').addEventListener('click', () => {
   document.querySelector('.filters-main').classList.toggle('filters-active');
 })
-
-// Live search filter
-// document.getElementById('search-input').addEventListener('input', function () {
-//   const keyword = this.value.trim().toLowerCase();
-
-//   if (keyword === '') {
-//     // If search is cleared, restore all mainArray
-//     tempArray = [...mainArray];
-//   } else {
-//     tempArray = mainArray.filter((item) => {
-//       const country = item.name.toLowerCase();
-//       const region = item.region.toLowerCase();
-//       const matchInNetworks = Object.keys(item.network_list || {}).some(network =>
-//         network.toLowerCase().includes(keyword)
-//       );
-
-//       return country.includes(keyword) || region.includes(keyword) || matchInNetworks;
-//     });
-//   }
-
-//   updateMap();
-//   showList(tempArray);
-// });
 
 
 // Populate unified dropdown filter with unique country names and regions
@@ -482,3 +440,10 @@ function populateCountryRegionCheckboxes(data) {
 document.querySelector('.filter-toggle').addEventListener('click', () => {
   document.getElementById('location-filters').classList.toggle('is-active');
 })
+
+if(document.getElementById('location-filters').classList.contains('is-active')) {
+  document.addEventListener('click', () => {
+    console.log('click ok')
+    document.getElementById('location-filters').classList.remove('is-active');
+  })
+}

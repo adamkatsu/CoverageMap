@@ -34,11 +34,17 @@
           </svg>
         </div>
         <div class="filters-main">
-          <div class="filters-details">
-            <span class="item-count"></span>
-            <button id="data-clear">Clear</button>
+          <div class="filter-search">
+            <input type="text" id="search-filter" placeholder="Search by Keyword" />
+            <div class="filter-dropdown">
+              <div class="filter-toggle">
+                <span>Select Location</span>
+                <span>⬇️</span>
+              </div>
+              <div id="location-filters" class=""></div>
+            </div>
           </div>
-          <!-- <button id="data-all">Select All</button> -->
+          <div class="filter-list-active"></div>
           <div class="filters-options">
             <label>
               <div class="checkmark"></div> 
@@ -70,15 +76,6 @@
               <input type="checkbox" id="filter-nb-iot" value="nb_iot" />
               NB-IOT
             </label>
-          </div>
-          <div class="filter-search">
-            <input type="text" id="search-filter" placeholder="Filter by keyword" />
-            <div class="filter-dropdown">
-              <div class="filter-toggle">
-                <span>Select Location ⬇️</span>
-              </div>
-              <div id="location-filters" class=""></div>
-            </div>
           </div>
         </div>
       </div>
