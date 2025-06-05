@@ -329,27 +329,27 @@ document.querySelector('.filters-head').addEventListener('click', () => {
 })
 
 // Live search filter
-document.getElementById('search-input').addEventListener('input', function () {
-  const keyword = this.value.trim().toLowerCase();
+// document.getElementById('search-input').addEventListener('input', function () {
+//   const keyword = this.value.trim().toLowerCase();
 
-  if (keyword === '') {
-    // If search is cleared, restore all mainArray
-    tempArray = [...mainArray];
-  } else {
-    tempArray = mainArray.filter((item) => {
-      const country = item.name.toLowerCase();
-      const region = item.region.toLowerCase();
-      const matchInNetworks = Object.keys(item.network_list || {}).some(network =>
-        network.toLowerCase().includes(keyword)
-      );
+//   if (keyword === '') {
+//     // If search is cleared, restore all mainArray
+//     tempArray = [...mainArray];
+//   } else {
+//     tempArray = mainArray.filter((item) => {
+//       const country = item.name.toLowerCase();
+//       const region = item.region.toLowerCase();
+//       const matchInNetworks = Object.keys(item.network_list || {}).some(network =>
+//         network.toLowerCase().includes(keyword)
+//       );
 
-      return country.includes(keyword) || region.includes(keyword) || matchInNetworks;
-    });
-  }
+//       return country.includes(keyword) || region.includes(keyword) || matchInNetworks;
+//     });
+//   }
 
-  updateMap();
-  showList(tempArray);
-});
+//   updateMap();
+//   showList(tempArray);
+// });
 
 
 // Populate unified dropdown filter with unique country names and regions
@@ -371,18 +371,20 @@ function populateCountryRegionCheckboxes(data) {
   function createCheckbox(name, type) {
     const label = document.createElement('label');
     const checkbox = document.createElement('input');
+    const labelText = document.createElement('span');
     checkbox.type = 'checkbox';
     checkbox.value = `${type}:${name}`;
     checkbox.classList.add('location-filter');
+    labelText.innerHTML = `${name}`;
     label.appendChild(checkbox);
-    label.append(` ${name}`);
+    label.append(labelText);
     return label;
   }
 
   // Regions group
   const regionGroup = document.createElement('div');
   regionGroup.classList.add('region-group')
-  regionGroup.innerHTML = '<strong>Regions</strong><br>';
+  regionGroup.innerHTML = '<strong>Regions</strong>';
   Array.from(regions).sort().forEach((r) => {
     regionGroup.appendChild(createCheckbox(r, 'region'));
   });
@@ -391,7 +393,7 @@ function populateCountryRegionCheckboxes(data) {
   // Countries group
   const countryGroup = document.createElement('div');
   countryGroup.classList.add('region-group')
-  countryGroup.innerHTML = '<br><strong>Countries</strong><br>';
+  countryGroup.innerHTML = '<br><strong>Countries</strong>';
   Array.from(countries).sort().forEach((c) => {
     countryGroup.appendChild(createCheckbox(c, 'country'));
   });
@@ -474,3 +476,9 @@ function populateCountryRegionCheckboxes(data) {
       .map((cb) => cb.value);
   }
 }
+
+// Filter Dropdown
+
+document.querySelector('.filter-toggle').addEventListener('click', () => {
+  document.getElementById('location-filters').classList.toggle('is-active');
+})
