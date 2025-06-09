@@ -329,3 +329,23 @@ section {
 .region-group label span {
   line-height: 160%;
 }
+
+.filter-active {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.filter-chip {
+  background: #eee;
+  padding: 4px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+}
+.filter-chip-close {
+  margin-left: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}

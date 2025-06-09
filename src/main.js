@@ -359,40 +359,94 @@ function populateCountryRegionCheckboxes(data) {
 
   // ========== Filter Logic ==========
   function runFilters({ selectedLocations = [], keyword = '', selectedTech = [] }) {
-    tempArray = mainArray.filter((item) => {
-      // Filter by locations
-      let matchLocation = true;
-      if (selectedLocations.length > 0) {
-        matchLocation = selectedLocations.some((val) => {
+    // Start from mainArray only once
+    let filtered = mainArray;
+  
+    // Filter by locations
+    if (selectedLocations.length > 0) {
+      filtered = filtered.filter((item) =>
+        selectedLocations.some((val) => {
           const [type, name] = val.split(':');
           return (type === 'region' && item.region === name) ||
                  (type === 'country' && item.name === name);
-        });
-      }
-
-      // Filter by keyword
-      let matchSearch = true;
-      if (keyword) {
-        const key = keyword.toLowerCase();
+        })
+      );
+    }
+  
+    // Filter by tech
+    if (selectedTech.length > 0) {
+      filtered = filtered.filter((item) =>
+        selectedTech.every((t) => item[t] === true)
+      );
+    }
+  
+    // Save interim state
+    tempArray = [...filtered];
+  
+    // Final filter by keyword (applied *after* previous filters)
+    if (keyword) {
+      const key = keyword.toLowerCase();
+      tempArray = tempArray.filter((item) => {
         const networkNames = Object.keys(item.network_list || {}).join(',').toLowerCase();
-        matchSearch =
+        return (
           item.name.toLowerCase().includes(key) ||
           item.region.toLowerCase().includes(key) ||
-          networkNames.includes(key);
-      }
-
-      // Filter by tech
-      let matchTech = true;
-      if (selectedTech.length > 0) {
-        matchTech = selectedTech.every((t) => item[t] === true);
-      }
-
-      return matchLocation && matchSearch && matchTech;
-    });
-
+          networkNames.includes(key)
+        );
+      });
+    }
+  
     updateMap();
     showList(tempArray);
+    updateActiveFilters(selectedLocations, selectedTech);
   }
+  function updateActiveFilters(selectedLocations, selectedTech) {
+    const activeDiv = document.querySelector('.filter-active');
+    activeDiv.innerHTML = '';
+  
+    // Add tech tags
+    selectedTech.forEach((tech) => {
+      const chip = createFilterChip(tech, 'filters-options input[value="' + tech + '"]');
+      activeDiv.appendChild(chip);
+    });
+  
+    // Add location tags
+    selectedLocations.forEach((loc) => {
+      // `loc` is like "region:Asia" or "country:France"
+      const [type, name] = loc.split(':');
+      const selector = `.location-filter[value="${loc}"]`;
+      const chip = createFilterChip(name, selector);
+      activeDiv.appendChild(chip);
+    });
+  }
+  function createFilterChip(labelText, checkboxSelector) {
+    const chip = document.createElement('span');
+    chip.className = 'filter-chip';
+    chip.textContent = labelText;
+  
+    const x = document.createElement('span');
+    x.className = 'filter-chip-close';
+    x.innerHTML = ' ×';
+    chip.appendChild(x);
+  
+    x.addEventListener('click', () => {
+      const cb = document.querySelector(checkboxSelector);
+      if (cb) {
+        cb.checked = false;
+  
+        // Re-run filters using current UI state
+        const selTech = Array.from(document.querySelectorAll('.filters-options input[type="checkbox"]:checked')).map(i => i.value);
+        const selLoc = Array.from(document.querySelectorAll('.location-filter:checked')).map(i => i.value);
+        const keyword = document.getElementById('search-filter').value;
+        runFilters({ selectedLocations: selLoc, selectedTech: selTech, keyword });
+      }
+    });
+  
+    return chip;
+  }
+  
+  
+  
 
   // ========== Event Listeners ==========
 
@@ -409,12 +463,12 @@ function populateCountryRegionCheckboxes(data) {
   // Search input
   if (searchInput) {
     searchInput.addEventListener('input', function () {
-      // uncheck location checkboxes
-      container.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
       const keyword = this.value;
+      const selectedLocations = getChecked('.location-filter');
       const selectedTech = getChecked('.filters-options input[type="checkbox"]');
-      runFilters({ selectedLocations: [], keyword, selectedTech });
+      runFilters({ selectedLocations, keyword, selectedTech });
     });
+    
   }
 
   // Tech checkboxes
