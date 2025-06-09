@@ -447,3 +447,4 @@ if(document.getElementById('location-filters').classList.contains('is-active')) 
     document.getElementById('location-filters').classList.remove('is-active');
   })
 }
+

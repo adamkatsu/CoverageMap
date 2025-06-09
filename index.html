@@ -26,60 +26,62 @@
       <div class="container">
         <div id="map"></div>
       </div>
-      <div class="filters">
-        <div class="filters-head">
-          <span style="font-weight: 500; font-size: 16px">Filters</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m18 15l-6-6l-6 6"/>
-          </svg>
-        </div>
-        <div class="filters-main">
-          <div class="filter-search">
-            <input type="text" id="search-filter" placeholder="Search by Keyword" />
-            <div class="filter-dropdown">
-              <div class="filter-toggle">
-                <span>Select Location</span>
-                <span>⬇️</span>
+      
+      <div class="countries-table">
+        <div class="filters">
+          <div class="filters-head">
+            <span style="font-weight: 500; font-size: 16px">Filters</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m18 15l-6-6l-6 6"/>
+            </svg>
+          </div>
+          <div class="filters-main">
+            <div class="filters-options">
+              <label>
+                <div class="checkmark"></div> 
+                <input type="checkbox" id="filter-2g" value="2g" />
+                2G
+              </label>
+              <label>
+                <input type="checkbox" id="filter-3g" value="3g" /> 
+                <div class="checkmark"></div> 
+                3G
+              </label>
+              <label>
+                <div class="checkmark"></div> 
+                <input type="checkbox" id="filter-5g" value="5g" /> 
+                5G
+              </label>
+              <label>
+                <div class="checkmark"></div> 
+                <input type="checkbox" id="filter-lte" value="lte" /> 
+                LTE
+              </label>
+              <label>
+                <div class="checkmark"></div> 
+                <input type="checkbox" id="filter-lte-m" value="lte_m" />
+                LTE-M
+              </label>
+              <label>
+                <div class="checkmark"></div> 
+                <input type="checkbox" id="filter-nb-iot" value="nb_iot" />
+                NB-IOT
+              </label>
+            </div>
+            <div class="filter-search">
+              <input type="text" id="search-filter" placeholder="Filter by Keyword" />
+              <div class="filter-dropdown">
+                <div class="filter-toggle">
+                  <span>Filter by Location</span>
+                  <span>⬇️</span>
+                </div>
+                <div class="filter-active"></div>
+                <div id="location-filters" class=""></div>
               </div>
-              <div id="location-filters" class=""></div>
+              <button class="btn-clear-filter">Clear Filter</button>
             </div>
           </div>
-          <div class="filter-list-active"></div>
-          <div class="filters-options">
-            <label>
-              <div class="checkmark"></div> 
-              <input type="checkbox" id="filter-2g" value="2g" />
-              2G
-            </label>
-            <label>
-              <input type="checkbox" id="filter-3g" value="3g" /> 
-              <div class="checkmark"></div> 
-              3G
-            </label>
-            <label>
-              <div class="checkmark"></div> 
-              <input type="checkbox" id="filter-5g" value="5g" /> 
-              5G
-            </label>
-            <label>
-              <div class="checkmark"></div> 
-              <input type="checkbox" id="filter-lte" value="lte" /> 
-              LTE
-            </label>
-            <label>
-              <div class="checkmark"></div> 
-              <input type="checkbox" id="filter-lte-m" value="lte_m" />
-              LTE-M
-            </label>
-            <label>
-              <div class="checkmark"></div> 
-              <input type="checkbox" id="filter-nb-iot" value="nb_iot" />
-              NB-IOT
-            </label>
-          </div>
         </div>
-      </div>
-      <div class="countries-table">
         <div class="countries-head">
           <div class="countries-item">
             <div class="countries-num">
