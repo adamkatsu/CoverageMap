@@ -5,9 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link rel="stylesheet" href="src/style.css">
+    <script 
+      src="https://code.jquery.com/jquery-3.6.0.min.js">
+    </script>
+    <script 
+      src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js">
+    </script>
     <link 
       rel="stylesheet" 
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -19,6 +22,7 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin="">
     </script>
+    <link rel="stylesheet" href="src/style.css">
     <title>New Map</title>
   </head>
   <body>
@@ -69,11 +73,15 @@
               </label>
             </div>
             <div class="filter-search">
-              <input type="text" id="search-filter" placeholder="Filter by Keyword" />
+              <div class="filter-input">
+                <img src="./src/assets/search.svg" alt="" class="icon-input">
+                <input type="text" id="search-filter" placeholder="Filter by Keyword" />
+              </div>
               <div class="filter-dropdown">
                 <div class="filter-toggle">
-                  <span>Filter by Location</span>
-                  <span>⬇️</span>
+                  <img src="./src/assets/LOCATION-DOT (1).svg" alt="" class="icon-input">
+                  <input type="text" placeholder="Filter by Keyword">
+                  <img src="./src/assets/CARET-DOWN.svg" alt="" class="icon-input-chevron">
                 </div>
                 <div class="filter-active"></div>
                 <div id="location-filters" class=""></div>

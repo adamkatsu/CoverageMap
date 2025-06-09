@@ -446,7 +446,6 @@ function populateCountryRegionCheckboxes(data) {
   }
   
   
-  
 
   // ========== Event Listeners ==========
 
@@ -489,16 +488,18 @@ function populateCountryRegionCheckboxes(data) {
   }
 }
 
-// Filter Dropdown
+// Show / Hide Filter Dropdown
 
-document.querySelector('.filter-toggle').addEventListener('click', () => {
-  document.getElementById('location-filters').classList.toggle('is-active');
-})
 
-if(document.getElementById('location-filters').classList.contains('is-active')) {
-  document.addEventListener('click', () => {
-    console.log('click ok')
-    document.getElementById('location-filters').classList.remove('is-active');
-  })
-}
+document.querySelector('.filter-toggle input').addEventListener('focus', function(){
+  console.log('Focused');
+  document.getElementById('location-filters').classList.add('is-active');
+});
+
+document.querySelector('.filter-toggle input').addEventListener('blur', function(){
+  console.log('Lost Focus');
+  document.getElementById('location-filters').classList.remove('is-active');
+});
+
+
 
