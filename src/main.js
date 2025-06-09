@@ -342,7 +342,7 @@ function populateCountryRegionCheckboxes(data) {
   // Regions group
   const regionGroup = document.createElement('div');
   regionGroup.classList.add('region-group')
-  regionGroup.innerHTML = '<strong>Regions</strong>';
+  regionGroup.innerHTML = '<span class="region-group-title">Regions</span>';
   Array.from(regions).sort().forEach((r) => {
     regionGroup.appendChild(createCheckbox(r, 'region'));
   });
@@ -351,7 +351,7 @@ function populateCountryRegionCheckboxes(data) {
   // Countries group
   const countryGroup = document.createElement('div');
   countryGroup.classList.add('region-group')
-  countryGroup.innerHTML = '<br><strong>Countries</strong>';
+  countryGroup.innerHTML = '<span class="region-group-title">Countries</span>';
   Array.from(countries).sort().forEach((c) => {
     countryGroup.appendChild(createCheckbox(c, 'country'));
   });

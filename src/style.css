@@ -293,6 +293,9 @@ section {
   height: 100%;
   border: none;
   background-color: transparent;
+  line-height: 160%;
+  font-size: 18px;
+  font-weight: 500;
 }
 #search-filter:focus {
   outline: none;
@@ -339,6 +342,9 @@ section {
   padding-left: 56px;
   border: none;
   background-color: transparent;
+  line-height: 160%;
+  font-size: 18px;
+  font-weight: 500;
 }
 .filter-toggle input:focus {
   outline: none;
@@ -347,17 +353,23 @@ section {
 #location-filters {
   width: 100%;
   height: 0px;
-  /* border: 1px solid black; */
+  padding: 0px 20px;
   background-color: white;
   position: absolute;
+  border-radius: 12px;
   top: 60px;
   left: 0;
   z-index: 999;
   overflow: scroll;
   padding: 0px 12px;
   transition: all .5s ease;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
 }
 #location-filters::-webkit-scrollbar {
   display: none;
@@ -372,10 +384,28 @@ section {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 12px;
+  width: 100%;
+  gap: 0px;
 }
 .region-group label span {
   line-height: 160%;
+}
+#location-filters label {
+  width: 100%;
+  border-radius: 8px;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+}
+#location-filters label:hover {
+  background-color: #F6F6F6;
+}
+.region-group-title {
+  margin-bottom: 12px;
+  font-weight: 600;
 }
 
 .filter-active {
@@ -383,14 +413,6 @@ section {
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 8px;
-}
-.filter-chip {
-  background: #eee;
-  padding: 4px 8px;
-  border-radius: 12px;
-  display: inline-flex;
-  align-items: center;
-  font-size: 14px;
 }
 .filter-chip-close {
   margin-left: 4px;
@@ -410,4 +432,18 @@ section {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.filter-chip {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  line-height: 160%;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 12px;
+  background-color: #f6f6f6;
+  border-radius: 8px;
 }
