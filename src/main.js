@@ -414,13 +414,7 @@ function populateCountryRegionCheckboxes(data) {
     const activeDiv = document.querySelector('.filter-active');
     activeDiv.innerHTML = '';
   
-    // Add tech tags
-    selectedTech.forEach((tech) => {
-      const chip = createFilterChip(tech, 'filters-options input[value="' + tech + '"]');
-      activeDiv.appendChild(chip);
-    });
-  
-    // Add location tags
+    // Add location tags only
     selectedLocations.forEach((loc) => {
       // `loc` is like "region:Asia" or "country:France"
       const [type, name] = loc.split(':');
