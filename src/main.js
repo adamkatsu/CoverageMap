@@ -391,12 +391,15 @@ function populateCountryRegionCheckboxes(data) {
     const label = document.createElement('label');
     const checkbox = document.createElement('input');
     const labelText = document.createElement('span');
+    const checkIndicator = document.createElement('div');
     checkbox.type = 'checkbox';
     checkbox.value = `${type}:${name}`;
     checkbox.classList.add('location-filter');
     labelText.innerHTML = `${name}`;
+    checkIndicator.classList.add('check-indicator');
     label.appendChild(checkbox);
     label.append(labelText);
+    label.append(checkIndicator);
     return label;
   }
 
