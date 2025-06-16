@@ -316,6 +316,7 @@ section {
   background-color: white;
   border: none;
   color: #4d4d4f;
+  cursor: pointer;
 }
 .filter-toggle {
   width: 100%;

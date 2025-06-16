@@ -488,6 +488,48 @@ function populateCountryRegionCheckboxes(data) {
   }
 }
 
+// Handle dropdown visibility and filtering
+function setupLocationFilter() {
+  const input = document.querySelector('.filter-toggle input');
+  const dropdown = document.getElementById('location-filters');
+  const container = document.querySelector('.filter-dropdown');
+
+  // Show dropdown on input focus
+  input.addEventListener('focus', () => {
+    dropdown.classList.add('is-active');
+  });
+
+  // Filter items based on input
+  input.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    const labels = dropdown.querySelectorAll('label');
+    
+    labels.forEach(label => {
+      const text = label.textContent.toLowerCase();
+      if (text.includes(searchTerm)) {
+        label.style.display = '';
+      } else {
+        label.style.display = 'none';
+      }
+    });
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!container.contains(e.target)) {
+      dropdown.classList.remove('is-active');
+    }
+  });
+
+  // Prevent dropdown from closing when clicking inside
+  dropdown.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+}
+
+// Call the setup function
+setupLocationFilter();
+
 // Show / Hide Filter Dropdown
 
 
@@ -496,10 +538,48 @@ document.querySelector('.filter-toggle input').addEventListener('focus', functio
   document.getElementById('location-filters').classList.add('is-active');
 });
 
-document.querySelector('.filter-toggle input').addEventListener('blur', function(){
-  console.log('Lost Focus');
-  document.getElementById('location-filters').classList.remove('is-active');
+// Prevent input from losing focus when clicking inside location filters
+document.getElementById('location-filters').addEventListener('mousedown', function(e) {
+  e.preventDefault(); // Prevent the default mousedown behavior
 });
+
+document.querySelector('.filter-toggle input').addEventListener('blur', function(e){
+  // Check if the related target is within the location filters
+  const locationFilters = document.getElementById('location-filters');
+  if (!locationFilters.contains(e.relatedTarget)) {
+    console.log('Lost Focus');
+    locationFilters.classList.remove('is-active');
+  }
+});
+
+// Clear all filters
+function clearFilters() {
+  // Clear tech checkboxes
+  document.querySelectorAll('.filters-options input[type="checkbox"]').forEach(checkbox => {
+    checkbox.checked = false;
+  });
+
+  // Clear location checkboxes
+  document.querySelectorAll('.location-filter').forEach(checkbox => {
+    checkbox.checked = false;
+  });
+
+  // Clear search input
+  document.getElementById('search-filter').value = '';
+
+  // Clear active filter chips
+  document.querySelector('.filter-active').innerHTML = '';
+
+  // Reset tempArray to match mainArray
+  tempArray = [...mainArray];
+
+  // Update map and list
+  updateMap();
+  showList(tempArray);
+}
+
+// Add event listener for clear filter button
+document.querySelector('.btn-clear-filter').addEventListener('click', clearFilters);
 
 
 
