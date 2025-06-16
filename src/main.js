@@ -193,18 +193,79 @@ function updateMap() {
 function toggleCountry(feature) {
   const countryName = feature.properties.name;
   const exists = tempArray.find((c) => c.name === countryName);
+  const activeFiltersDiv = document.querySelector('.filter-active');
 
-  if (exists) {
-    // Remove if already in tempArray
-    tempArray = tempArray.filter((c) => c.name !== countryName);
-  } else {
-    // Add to tempArray
+  // If tempArray is empty or has all countries (initial state), select only the clicked country
+  if (tempArray.length === 0 || tempArray.length === mainArray.length) {
     const countryData = mainArray.find((c) => c.name === countryName);
-    if (countryData) tempArray.push(countryData);
+    if (countryData) {
+      tempArray = [countryData];
+      // Clear existing chips and add new one
+      activeFiltersDiv.innerHTML = '';
+      const chip = createFilterChip(countryName, null, true);
+      activeFiltersDiv.appendChild(chip);
+    }
+  } else {
+    // Normal toggle behavior for subsequent clicks
+    if (exists) {
+      // Remove if already in tempArray
+      tempArray = tempArray.filter((c) => c.name !== countryName);
+      // Remove the chip
+      const chip = activeFiltersDiv.querySelector(`[data-country="${countryName}"]`);
+      if (chip) chip.remove();
+    } else {
+      // Add to tempArray
+      const countryData = mainArray.find((c) => c.name === countryName);
+      if (countryData) {
+        tempArray.push(countryData);
+        // Add new chip
+        const chip = createFilterChip(countryName, null, true);
+        activeFiltersDiv.appendChild(chip);
+      }
+    }
   }
 
   updateMap();
   showList(tempArray);
+}
+
+// Modify createFilterChip to handle country chips
+function createFilterChip(labelText, checkboxSelector, isCountry = false) {
+  const chip = document.createElement('span');
+  chip.className = 'filter-chip';
+  chip.textContent = labelText;
+  if (isCountry) {
+    chip.setAttribute('data-country', labelText);
+  }
+
+  const x = document.createElement('span');
+  x.className = 'filter-chip-close';
+  x.innerHTML = ' ×';
+  chip.appendChild(x);
+
+  x.addEventListener('click', () => {
+    if (isCountry) {
+      // Handle country chip removal
+      const countryName = chip.getAttribute('data-country');
+      tempArray = tempArray.filter(c => c.name !== countryName);
+      updateMap();
+      showList(tempArray);
+    } else {
+      // Handle regular filter chip removal
+      const cb = document.querySelector(checkboxSelector);
+      if (cb) {
+        cb.checked = false;
+        // Re-run filters using current UI state
+        const selTech = Array.from(document.querySelectorAll('.filters-options input[type="checkbox"]:checked')).map(i => i.value);
+        const selLoc = Array.from(document.querySelectorAll('.location-filter:checked')).map(i => i.value);
+        const keyword = document.getElementById('search-filter').value;
+        runFilters({ selectedLocations: selLoc, selectedTech: selTech, keyword });
+      }
+    }
+    chip.remove();
+  });
+
+  return chip;
 }
 
 // Style function for countries
@@ -342,7 +403,7 @@ function populateCountryRegionCheckboxes(data) {
   // Regions group
   const regionGroup = document.createElement('div');
   regionGroup.classList.add('region-group')
-  regionGroup.innerHTML = '<span class="region-group-title">Regions</span>';
+  // regionGroup.innerHTML = '<span class="region-group-title">Regions</span>';
   Array.from(regions).sort().forEach((r) => {
     regionGroup.appendChild(createCheckbox(r, 'region'));
   });
@@ -351,7 +412,7 @@ function populateCountryRegionCheckboxes(data) {
   // Countries group
   const countryGroup = document.createElement('div');
   countryGroup.classList.add('region-group')
-  countryGroup.innerHTML = '<span class="region-group-title">Countries</span>';
+  // countryGroup.innerHTML = '<span class="region-group-title">Countries</span>';
   Array.from(countries).sort().forEach((c) => {
     countryGroup.appendChild(createCheckbox(c, 'country'));
   });
@@ -419,33 +480,6 @@ function populateCountryRegionCheckboxes(data) {
       activeDiv.appendChild(chip);
     });
   }
-  function createFilterChip(labelText, checkboxSelector) {
-    const chip = document.createElement('span');
-    chip.className = 'filter-chip';
-    chip.textContent = labelText;
-  
-    const x = document.createElement('span');
-    x.className = 'filter-chip-close';
-    x.innerHTML = ' ×';
-    chip.appendChild(x);
-  
-    x.addEventListener('click', () => {
-      const cb = document.querySelector(checkboxSelector);
-      if (cb) {
-        cb.checked = false;
-  
-        // Re-run filters using current UI state
-        const selTech = Array.from(document.querySelectorAll('.filters-options input[type="checkbox"]:checked')).map(i => i.value);
-        const selLoc = Array.from(document.querySelectorAll('.location-filter:checked')).map(i => i.value);
-        const keyword = document.getElementById('search-filter').value;
-        runFilters({ selectedLocations: selLoc, selectedTech: selTech, keyword });
-      }
-    });
-  
-    return chip;
-  }
-  
-  
 
   // ========== Event Listeners ==========
 

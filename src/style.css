@@ -370,7 +370,6 @@ section {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 16px;
 }
 #location-filters::-webkit-scrollbar {
   display: none;
@@ -405,7 +404,6 @@ section {
   background-color: #F6F6F6;
 }
 .region-group-title {
-  margin-bottom: 12px;
   font-weight: 600;
 }
 
