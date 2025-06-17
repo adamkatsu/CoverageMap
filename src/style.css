@@ -138,7 +138,9 @@ section {
 .countries-head .countries-item {
   border: none;
 }
-
+.countries-head .countries-count {
+  text-align: center;
+}
 .countries-list {
   max-height: 464px;
   overflow: scroll;
@@ -195,7 +197,7 @@ section {
   flex-shrink: 0;
 }
 .countries-network {
-  width: 80px;
+  width: 130px;
 }
 .countries-count {
   width: 200px;
