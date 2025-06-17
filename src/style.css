@@ -23,6 +23,7 @@ section {
 }
 .filters {
   position: relative;
+  max-width: 1228px;
   z-index: 9999;
   background-color: rgba(255,255,255,0.8);
   backdrop-filter: blur(2px);
@@ -129,6 +130,11 @@ section {
 }
 .countries-main {
   overflow-x: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.countries-main::-webkit-scrollbar {
+  display: none;
 }
 .countries-head {
   padding: 8px;
