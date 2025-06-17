@@ -575,6 +575,3 @@ function clearFilters() {
 
 // Add event listener for clear filter button
 document.querySelector('.btn-clear-filter').addEventListener('click', clearFilters);
-
-
-
