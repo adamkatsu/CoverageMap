@@ -253,14 +253,11 @@ function showList(arr) {
     Object.entries(networkList).forEach(([networkName, net]) => {
       html += `
         <div class="countries-item">
-          <div class="countries-num">
-            <span>${rowIndex++}</span>
+          <div class="countries-name">
+            <span>${item.name}</span>
           </div>
           <div class="countries-region">
             <span>${item.region}</span>
-          </div>
-          <div class="countries-name">
-            <span>${item.name}</span>
           </div>
           <div class="countries-network">
             <span>${networkName}</span>
@@ -374,9 +371,9 @@ function createFilterChip(labelText, checkboxSelector) {
   chip.className = 'filter-chip';
   chip.textContent = labelText;
 
-  const x = document.createElement('span');
+  const x = document.createElement('img');
   x.className = 'filter-chip-close';
-  x.innerHTML = ' ×';
+  x.src = 'https://cdn.prod.website-files.com/67e0fdab1ca75563d12f1ed4/685136900c17da5022469473_close.svg';
   chip.appendChild(x);
 
   x.addEventListener('click', () => {
