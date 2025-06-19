@@ -103,6 +103,9 @@ section {
   background-color: orange;
   color: white;
   border: 1px solid orange;
+  background-image: url('./assets/check\(1\).svg');
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 #data-clear {
   border: none;
@@ -122,6 +125,7 @@ section {
 }
 .leaflet-popup {
   pointer-events: none;
+  color: #4d4d4f;
 }
 .countries-table {
   width: 100%;
@@ -336,14 +340,16 @@ section {
 .btn-clear-filter {
   width: fit-content;
   flex-shrink: 0;
-  padding: 12px 0;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 1px solid #dedede;
   font-size: 20px;
   font-weight: 500;
   line-height: 160%;
   background-color: white;
-  border: none;
   color: #4d4d4f;
   cursor: pointer;
+
 }
 .filter-toggle {
   width: 100%;
