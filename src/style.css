@@ -103,7 +103,7 @@ section {
   background-color: orange;
   color: white;
   border: 1px solid orange;
-  background-image: url('./assets/check\(1\).svg');
+  background-image: url('https://cdn.prod.website-files.com/67e0fdab1ca75563d12f1ed4/6852715d1efd3be23bd1b09d_check%20(1).svg');
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -447,7 +447,7 @@ section {
 .check-indicator {
   height: 16px;
   width: 16px;
-  background-image: url(./assets/check_1.svg);
+  background-image: url('https://cdn.prod.website-files.com/67e0fdab1ca75563d12f1ed4/68513813bc72a4d3015632c3_check_1.svg');
   background-repeat: no-repeat;
   background-size: 100%;
   background-position: center center;

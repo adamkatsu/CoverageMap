@@ -250,18 +250,10 @@ function showList(arr, keyword = '') {
   const key = keyword ? keyword.toLowerCase() : '';
   arr.forEach((item) => {
     const networkList = item.network_list || {};
-    // If keyword is present, check if it matches country or region
-    let filteredNetworks = [];
-    if (key && (item.name.toLowerCase().includes(key) || item.region.toLowerCase().includes(key))) {
-      // Show all networks for this country
-      filteredNetworks = Object.entries(networkList);
-    } else if (key) {
-      // Only show matching networks
-      filteredNetworks = Object.entries(networkList).filter(([networkName]) => networkName.toLowerCase().includes(key));
-    } else {
-      // No keyword, show all
-      filteredNetworks = Object.entries(networkList);
-    }
+    // If keyword is present, filter network names
+    const filteredNetworks = key
+      ? Object.entries(networkList).filter(([networkName]) => networkName.toLowerCase().includes(key))
+      : Object.entries(networkList);
     filteredNetworks.forEach(([networkName, net]) => {
       html += `
         <div class="countries-item">
