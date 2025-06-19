@@ -236,8 +236,7 @@ function applyFilters() {
 }
 
 // Show list in table
-function showList(arr) {
-
+function showList(arr, keyword = '') {
   const listContainer = document.querySelector('.countries-list');
   let html = '';
   const svgCheck = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -248,9 +247,22 @@ function showList(arr) {
   </svg>`;
 
   let rowIndex = 1;
+  const key = keyword ? keyword.toLowerCase() : '';
   arr.forEach((item) => {
     const networkList = item.network_list || {};
-    Object.entries(networkList).forEach(([networkName, net]) => {
+    // If keyword is present, check if it matches country or region
+    let filteredNetworks = [];
+    if (key && (item.name.toLowerCase().includes(key) || item.region.toLowerCase().includes(key))) {
+      // Show all networks for this country
+      filteredNetworks = Object.entries(networkList);
+    } else if (key) {
+      // Only show matching networks
+      filteredNetworks = Object.entries(networkList).filter(([networkName]) => networkName.toLowerCase().includes(key));
+    } else {
+      // No keyword, show all
+      filteredNetworks = Object.entries(networkList);
+    }
+    filteredNetworks.forEach(([networkName, net]) => {
       html += `
         <div class="countries-item">
           <div class="countries-name">
@@ -348,7 +360,7 @@ function runFilters({ selectedLocations = [], keyword = '', selectedTech = [] })
   }
 
   updateMap();
-  showList(tempArray);
+  showList(tempArray, keyword);
   updateActiveFilters(selectedLocations, selectedTech);
 }
 
@@ -567,7 +579,7 @@ function clearFilters() {
 
   // Update map and list
   updateMap();
-  showList(tempArray);
+  showList(tempArray, '');
 }
 
 // Add event listener for clear filter button
