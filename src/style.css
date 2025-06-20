@@ -130,7 +130,6 @@ section {
 .countries-table {
   width: 100%;
   max-width: fit-content;
-  overflow: hidden;
 }
 .countries-main {
   overflow-x: scroll;
@@ -422,6 +421,7 @@ section {
 }
 .region-group label span {
   line-height: 160%;
+  font-weight: 500;
 }
 #location-filters label {
   width: 100%;
@@ -440,7 +440,6 @@ section {
 .region-group-title {
   font-weight: 600;
 }
-
 .location-filter {
   opacity: 0;
 }
@@ -458,9 +457,6 @@ section {
 #location-filters label:has(.location-filter:checked ) .check-indicator {
   opacity: 1;
 }
-
-
-
 .filter-active {
   display: flex;
   flex-wrap: wrap;
